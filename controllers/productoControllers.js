@@ -1,4 +1,4 @@
-
+const Producto = require('../models/producto')
 
 exports.crearProducto = async (req, res) => {
 
@@ -14,6 +14,10 @@ exports.crearProducto = async (req, res) => {
 exports.obtenerProductos = async (req, res) => {
 
     try {
+
+        const producto1 = await Producto.findAll();
+
+        res.status(200).json({producto1});
 
     } catch (error) {
         console.log(error);
