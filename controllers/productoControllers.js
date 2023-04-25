@@ -3,7 +3,10 @@ const Producto = require('../models/producto')
 exports.crearProducto = async (req, res) => {
 
     try {
-        
+        let {nombre_producto, caracteristicas_producto, url_imagen} = req.body;
+        let producto = new Producto(nombre_producto, caracteristicas_producto, url_imagen);
+        producto = await producto.save();
+        console.log(producto);
     } catch (error) {
         console.log(error);
         res.status(500).send(error.message);
@@ -27,6 +30,18 @@ exports.obtenerProductos = async (req, res) => {
 
 exports.actualizarProducto = async (req, res) => {
     try {
+        let productoId = req.params.id;
+        let {nombre_producto, caracteristicas_producto, url_imagen} = req.body;
+
+        let producto = {
+            nombre_producto : nombre_producto,
+            caracteristicas_producto : caracteristicas_producto,
+            url_imagen : url_imagen
+        }
+
+        const producto1 = await Producto.updateById(productoId, producto);
+
+        console.log(producto1);
 
     } catch (error) {
         console.log(error);
@@ -37,7 +52,11 @@ exports.actualizarProducto = async (req, res) => {
 exports.obtenerProducto = async (req, res) => {
 
     try {
-        
+        let productoId = req.params.id;
+
+        let [producto, _] = await Producto.findById(productoId);
+
+        res.status(200).json({producto});
     } catch (error) {
         console.log(error);
         res.status(500).send(error.message);
@@ -46,14 +65,10 @@ exports.obtenerProducto = async (req, res) => {
 
 exports.deletearProducto = async (req, res) => {
     try {
+        let productoId = req.params.id;
 
-        let producto = await Producto.findById(req.params.id);
-        if (!producto) {
-            res.status(404).json({ message: "Producto no existe" });
-        }
-
-        await Producto.findOneAndRemove({ _id: req.params.id });
-        res.json({ message: "Producto eliminado"});
+        const producto = await Producto.deleteById(productoId);
+        console.log(producto);
         
     } catch (error) {
         console.log(error);

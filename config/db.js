@@ -8,12 +8,5 @@ const pool = mysql.createPool({
     password: process.env.DB_PASSWORD,
 });
 
-let sql = "SELECT * FROM tbl_productos";
-
-pool.execute(sql, (err, result)=> {
-    if (err) throw err;
-
-    console.log(result);
-});
 
 module.exports = pool.promise();
