@@ -3,8 +3,8 @@ const Producto = require('../models/producto')
 exports.crearProducto = async (req, res) => {
 
     try {
-        let {nombre_producto, caracteristicas_producto, url_imagen} = req.body;
-        let producto = new Producto(nombre_producto, caracteristicas_producto, url_imagen);
+        let {nombre_producto, caracteristicas_producto, url_imagen, ACTIVO, id_categoria} = req.body;
+        let producto = new Producto(nombre_producto, caracteristicas_producto, url_imagen, ACTIVO, id_categoria);
         producto = await producto.save();
         console.log(producto);
     } catch (error) {
@@ -31,12 +31,14 @@ exports.obtenerProductos = async (req, res) => {
 exports.actualizarProducto = async (req, res) => {
     try {
         let productoId = req.params.id;
-        let {nombre_producto, caracteristicas_producto, url_imagen} = req.body;
+        let {nombre_producto, caracteristicas_producto, url_imagen, ACTIVO, id_categoria} = req.body;
 
         let producto = {
             nombre_producto : nombre_producto,
             caracteristicas_producto : caracteristicas_producto,
-            url_imagen : url_imagen
+            url_imagen : url_imagen,
+            ACTIVO : ACTIVO,
+            id_categoria : id_categoria
         }
 
         const producto1 = await Producto.updateById(productoId, producto);
